@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Chat Örneği</title>
+</head>
+<body>
+  <h1>WebSocket Chat</h1>
+  <div id="chat-box"></div>
+  <input type="text" id="message-input" placeholder="Mesajınızı girin..." />
+  <button onclick="sendMessage()">Gönder</button>
+
+  <script>
+    const socket = new WebSocket('ws://localhost:3000', 'websocket'); // WebSocket protokolünün sürümünü belirtin
+
+    socket.onmessage = (event) => {
+      const message = event.data;
+      displayMessage(message);
+    };
+
+    function sendMessage() {
+      const messageInput = document.getElementById('message-input');
+      const message = messageInput.value;
+      socket.send(message);
+      messageInput.value = '';
+    }
+
+    function displayMessage(message) {
+      const chatBox = document.getElementById('chat-box');
+      chatBox.innerHTML += `<p>${message}</p>`;
+    }
+  </script>
+</body>
+</html>
